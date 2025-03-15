@@ -1,0 +1,20 @@
+{% extends "book_store/base.html" %}
+{% from 'bootstrap5/form.html' import render_form %}
+{% block title %}Log in{% endblock %}
+
+{% block content %}
+    {% for message in get_flashed_messages() %}
+        <div class="alert alert-info">
+            {{ message }}
+        </div>
+    {% endfor %}
+
+    <div class="container">
+        <h1>Login</h1>
+        <form method="POST" action="{{ url_for('auth.login') }}">
+            {{ render_form(form) }}
+        </form>
+        <p class="mt-5">Don't Have an Account? <a href="{{ url_for('auth.register') }}">Sign up</a></p>
+    </div>
+
+{% endblock %}

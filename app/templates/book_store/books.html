@@ -1,0 +1,53 @@
+{% extends "book_store/base.html" %}
+{% block title %}
+Books List
+{% endblock %}
+{% block content %}
+<div class="row mb-4">
+    <div class="col">
+        <h1 class="display-4">Our Book Collection</h1>
+        <p class="lead text-muted">Browse our selection of books</p>
+    </div>
+    <div class="col-auto d-flex align-items-center">
+        <a href="{{ url_for('main.add_book') }}" class="btn btn-primary">
+            <i class="bi bi-plus-circle me-2"></i>Add New Book
+        </a>
+    </div>
+</div>
+
+{% if books %}
+<style>
+    .main_content {
+        min-height: 66vh;
+    }
+</style>
+<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 my-5 books_list">
+    {% for book in books %}
+    <div class="col">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">{{ book.title }}</h5>
+                {% if book.author %}
+                <h6 class="card-subtitle mb-2 text-muted">By {{ book.author.name }}</h6>
+                {% endif %}
+                <p class="card-text">
+                    <span class="badge bg-info">{{ book.age_group }}</span>
+                    <span class="badge bg-secondary">${{ book.price }}</span>
+                </p>
+            </div>
+            <div class="card-footer bg-transparent border-top-0">
+                <a href="{{ url_for('main.book_details', book_id=book.id) }}" class="btn btn-outline-primary btn-sm">View Details</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="alert alert-info" role="alert">
+    <h4 class="alert-heading">No books found!</h4>
+    <p>Start building your collection by adding some books.</p>
+    <hr>
+    <p class="mb-0">Click the "Add New Book" button to get started.</p>
+</div>
+{% endif %}
+{% endblock %}

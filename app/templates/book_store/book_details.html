@@ -1,0 +1,69 @@
+{% extends "book_store/base.html" %}
+{% block title %}
+{{book.title}}
+{% endblock title %}
+{% block content %}
+<div class="container py-4 my-5">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ url_for('main.index') }}">Books</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ book.title }}</li>
+        </ol>
+    </nav>
+
+    <div class="card shadow-sm">
+        <div class="card-header bg-gradient-primary text-white">
+            <h1 class="card-title mb-0">{{ book.title }}</h1>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-8">
+                    <table class="table table-borderless">
+                        <tbody>
+                            <tr>
+                                <th scope="row" class="text-muted">Author</th>
+                                <td>
+                                    <a href="{{ url_for('main.author_details', author_id=book.author.id) }}" class="text-decoration-none">
+                                        {{ book.author.name }}
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row" class="text-muted">Published</th>
+                                <td>{{ book.publish_date }}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row" class="text-muted">Price</th>
+                                <td>${{ book.price }}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row" class="text-muted">Age Group</th>
+                                <td><span class="badge bg-info">{{ book.age_group }}</span></td>
+                            </tr>
+                            <tr>
+                                <th scope="row" class="text-muted">Added to Library</th>
+                                <td>{{ book.added.strftime('%B %d, %Y') if book.added else 'N/A' }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-md-4 text-center">
+                    <div class="p-3 bg-light rounded">
+                        <i class="bi bi-book display-1 text-primary"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer bg-transparent">
+            <div class="d-flex justify-content-between">
+                <a href="{{ url_for('main.index') }}" class="btn btn-outline-secondary">
+                    <i class="bi bi-arrow-left me-1"></i>Back to Books
+                </a>
+                <a href="{{ url_for('main.delete_book' , book_id = book.id)  }}" class="btn btn-outline-secondary">
+                    <i class="bi bi-arrow-left me-1"></i>Delete Book
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

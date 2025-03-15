@@ -1,0 +1,66 @@
+{% extends "book_store/base.html" %}
+{% block title %}
+{{author.name}}
+{% endblock %}
+{% block content %}
+<div class="container py-4 my-5">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ url_for('main.index') }}">Books</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ author.name }}</li>
+        </ol>
+    </nav>
+
+    <div class="card shadow-sm mb-4">
+        <div class="card-header bg-gradient-primary text-white">
+            <h1 class="card-title mb-0">{{ author.name }}</h1>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-8">
+                    <h4 class="mb-3">About the Author</h4>
+                    <p class="lead">Author of {{ author_books|length }} book(s)</p>
+                </div>
+                <div class="col-md-4 text-center">
+                    <div class="p-3 bg-light rounded">
+                        <i class="bi bi-person-circle display-1 text-primary"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-header">
+            <h2 class="h4 mb-0">Books by {{ author.name }}</h2>
+        </div>
+        <div class="card-body">
+            {% if author_books %}
+                <div class="list-group">
+                    {% for book in author_books %}
+                        <a href="{{ url_for('main.book_details', book_id=book.id) }}" class="list-group-item list-group-item-action">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">{{ book.title }}</h5>
+                                <span class="badge bg-secondary">${{ book.price }}</span>
+                            </div>
+                            <p class="mb-1"><span class="badge bg-info">{{ book.age_group }}</span></p>
+                            <small class="text-muted">Published: {{ book.publish_date }}</small>
+                        </a>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="alert alert-info">
+                    This author has no books in our library yet.
+                </div>
+            {% endif %}
+        </div>
+        <div class="card-footer bg-transparent">
+            <div class="d-flex justify-content-between">
+                <a href="{{ url_for('main.index') }}" class="btn btn-outline-secondary">
+                    <i class="bi bi-arrow-left me-1"></i>Back to Books
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
